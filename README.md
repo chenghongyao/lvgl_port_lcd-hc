@@ -1,39 +1,48 @@
 # 说明
-基于 STM32 HAL 库，为 `lvgl` 提供 `st7789v2`控制器支持。
+
+基于 STM32 HAL 库，为 `lvgl` 提供 LCD 控制器支持。
+
 - 颜色格式：RGB656
+- 支持控制器
+  - st7789v2
+  - ili9341
 
 # 硬件设置
+
 ## IO
-- ST7789V2_DC：输出
-- ST7789V2_CS：输出
-- ST7789V2_RST：输出
+
+- LCD_DC：输出
+- LCD_CS：输出
+- LCD_RST：输出
+
 ## SPI
-- ST7789V2_SPI：默认（或改分频）
+
+- LCD_SPI：输出主模式（或改分频）
 
 ## 其他
-- ST7789V2_ROTATE：显示方向
-    - LV_DISP_ROT_NONE(default)
-    - LV_DISP_ROT_90
-    - LV_DISP_ROT_180
-    - LV_DISP_ROT_270
 
-
-
+- LCD_ROTATE：显示方向
+  - 0(default)：正常
+  - 1：90 度
+  - 2：180 度
+  - 3：270 度
 
 # CMake 引入
 
 ```CMake
 
-add_subdirectory(stm32cube) # required by lvgl_port_st7789v2
-add_subdirectory(3rdparty/lvgl)      # required by lvgl_port_st7789v2
-add_subdirectory(drivers/lvgl_port_st7789v2)
+add_subdirectory(stm32cube) # required by lvgl_port_lcd
+add_subdirectory(3rdparty/lvgl)      # required by lvgl_port_lcd
+add_subdirectory(drivers/lvgl_port_lcd)
 
 add_executable(app.elf main.c)
 target_link_libraries(app.elf
     PRIVATE
     stm32cube::core
     lvgl
-    lvgl::port::st7789v2)
+    lvgl::port::st7789v2
+    lvgl::port::ili9341)
+
 
 ```
 
@@ -48,4 +57,3 @@ void setup() {
     lvgl_port_st7789v2();
 }
 ```
-
